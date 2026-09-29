@@ -91,3 +91,5 @@ screens, `CGSData` for the models and errors they hand back.
 
 Contact your Cafeyn representative. Please include the SDK version you are on, taken from the tag
 you resolved.
+
+<!-- From 0.1.1 on, this file is rendered by the ios-cgs SDK-Release workflow from Scripts/README-template.md. Do not edit it here. -->
