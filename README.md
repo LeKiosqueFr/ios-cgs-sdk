@@ -14,7 +14,9 @@ from an empty app to an issue open in the reader. Everything outside this path i
 > public symbols, with no deprecation warning beforehand and no change of major version to signal
 > it. **Pin an exact version** — `exact:`, never `from:`. SwiftPM reads `from: "0.1.0"` as
 > `0.1.0..<1.0.0`, with no special case for `0.x`, so it would resolve straight through every
-> breaking alpha release. The surface freezes at `1.0.0`.
+> breaking alpha release. Before you move to a new version, read [`CHANGELOG.md`](CHANGELOG.md):
+> it lists what changed in each release, and marks every breaking change. The surface freezes at
+> `1.0.0`.
 
 ## Requirements
 
@@ -37,7 +39,7 @@ problem, not a credentials problem.
 Swift Package Manager. In Xcode, *File → Add Package Dependencies…*, or in a `Package.swift`:
 
 ```swift
-.package(url: "https://github.com/LeKiosqueFr/ios-cgs-sdk.git", exact: "0.1.1")
+.package(url: "https://github.com/LeKiosqueFr/ios-cgs-sdk.git", exact: "0.2.0")
 ```
 
 Two products, both using pre-compiled XCFrameworks:
@@ -159,8 +161,8 @@ re-authenticating.
 
 ### 4. Show a screen
 
-**A library page** — the issues this profile has finished downloading, as a grid, with an empty
-state when nothing is on disk:
+**A library page** — the issues this profile has finished downloading, as covers in columns, with
+an empty state when nothing is on disk:
 
 ```swift
 CGS.UI.libraryPage(
@@ -191,9 +193,10 @@ Tapping an *issue* is not among those actions: the featured issue opens in the r
 and a supplement or an archive replaces the content of the page. Use `.publication(_:)` instead of
 `.issue(_:)` to open on whichever issue is the latest when the page loads.
 
-**Lists of content** come from `CGS.UI.lazyList(issues:…)` and its siblings. Its `configuration`
-parameter defaults to a **horizontal carousel** — if you want a scrollable grid, ask for one:
-`configuration: .grid()`. `.list()` and `.carousel(_:)` are the other two.
+**Sections of content** come from `CGS.UI.section(issues:…)` and its siblings. Its `configuration`
+parameter defaults to a **horizontal** line that scrolls sideways. `configuration: .vertical()` lays
+the cells out in as many columns as the width allows, and `.vertical(columns: .single())` puts one
+per line.
 
 ### 5. Download an issue
 
@@ -279,6 +282,10 @@ CGS.Reader.open(issueId: issueIdentifier, from: presenter)
 as they are reached; a downloaded issue simply opens with no network. `CGS.Reader.open(articleId:issueId:from:)`
 opens a single article the same way.
 
+**An issue outside the profile's rights opens as a preview, or not at all.** The SDK asks the backend
+before anything shows, so the reader shows a moment after the call: a preview opens on its preview
+pages only, and an issue without one opens nothing.
+
 Both take a `UIViewController` to present from, and **the SDK does not give you one** — a SwiftUI
 app has to find its own. This is the helper our sample app uses. You own this code; it is not part of
 the SDK:
@@ -324,6 +331,26 @@ do {
 }
 ```
 
+## Wordings and language
+
+The SDK ships its texts in six languages (`de`, `en`, `es`, `fr`, `it`, `nl`) and renders in the
+language the system picked for your app, with dates in the system locale. Nothing to set up, and
+no setting to call: a user who wants another language changes it in iOS Settings, for your app.
+
+To change a wording, add a localized `CGS.strings` file to your app (`fr.lproj/CGS.strings`, …),
+each holding only the keys you change, and install them once:
+
+```swift
+CGS.Localization.setOverrides(.bundle(.main))
+```
+
+Overrides are per language: a key a file does not hold, and a language with no file at all, keep
+the SDK's own translations. The reader's labels (`onereader.*` keys) are overridable through the
+same files. A key that matches no SDK wording (a typo, or a key an update removed) is reported
+through `CGS.Logger` instead of failing silently. So is an override whose placeholders (`%@`,
+`%d`) do not match the SDK's: it is ignored, and the SDK's own wording is drawn. The key list, with
+the English values, is [`WORDINGS.md`](WORDINGS.md).
+
 ## What the SDK leaves to you
 
 Deliberately outside the SDK. Plan for these before you start.
@@ -335,14 +362,14 @@ Deliberately outside the SDK. Plan for these before you start.
   reload the issues yourself.
 - **Reading progress.** The SDK does not compute it. Note that some cells can *draw* a progress
   ring, so a design that shows one needs a value the API cannot produce today. Plan for that.
-- **Locale.** `CGSUI` includes `de`, `en`, `en-CA`, `es`, `fr`, `it` and `nl`, and follows the system
-  language. Overriding it per-user is yours.
+- **An in-app language picker.** The SDK follows the language iOS picked for your app
+  (`Bundle.main.preferredLocalizations`) and has no language setting of its own.
 - **Knowing an issue is locked before the tap.** Reading rights are reported as an error when the reader
   opens, not as a state you can read off the catalog beforehand.
 
 ## Support
 
-This page describes **`0.1.1`**. It is generated at release time, so it always matches the tag it is
+This page describes **`0.2.0`**. It is generated at release time, so it always matches the tag it is
 released with.
 
 Questions, a licence key, or a bug: your Cafeyn contact.

@@ -17,23 +17,23 @@ let package = Package(
     targets: [
         .binaryTarget(
             name: "CGSUI",
-            url: "https://github.com/LeKiosqueFr/ios-cgs-sdk/releases/download/0.1.1/CGSUI.xcframework.zip",
-            checksum: "78539cb0f239c3df44ed3dcb8012bc5483db369f53a8ca9fdd8545c996e6fcf0"
+            url: "https://github.com/LeKiosqueFr/ios-cgs-sdk/releases/download/0.2.0/CGSUI.xcframework.zip",
+            checksum: "3a93b55a1e62063c33cf6affd7b697ca43ee677b413d825581520de2d3abfba7"
         ),
         .binaryTarget(
             name: "CGSReader",
-            url: "https://github.com/LeKiosqueFr/ios-cgs-sdk/releases/download/0.1.1/CGSReader.xcframework.zip",
-            checksum: "08caf3a465cf4479c484cdde346f50899d138d3c686bd1c20dd7485f7ee2987b"
+            url: "https://github.com/LeKiosqueFr/ios-cgs-sdk/releases/download/0.2.0/CGSReader.xcframework.zip",
+            checksum: "44734e2db6b859898a19fd299a638d30ca7b2bf9d3accdd07ab823175c425f16"
         ),
         .binaryTarget(
             name: "CGSData",
-            url: "https://github.com/LeKiosqueFr/ios-cgs-sdk/releases/download/0.1.1/CGSData.xcframework.zip",
-            checksum: "7fafb5199d368d8530bb2859854228974f3d0f1ffd4ba86c965277cc8dd917e6"
+            url: "https://github.com/LeKiosqueFr/ios-cgs-sdk/releases/download/0.2.0/CGSData.xcframework.zip",
+            checksum: "cb6556678c23821b622dff50b960cce43871fe81395f2d741873cff0fc8cd5ff"
         ),
         .binaryTarget(
             name: "OneReader",
-            url: "https://github.com/LeKiosqueFr/ios-cgs-sdk/releases/download/0.1.1/OneReader.xcframework.zip",
-            checksum: "ddd3ea3965d19965f14a61f6ded2a673a9962443ef41a9f90e669a833507adf9"
+            url: "https://github.com/LeKiosqueFr/ios-cgs-sdk/releases/download/0.2.0/OneReader.xcframework.zip",
+            checksum: "f4968d342c4593afed079f9717919b20b030c17d065b3ffaa4ee35a8a15068da"
         )
     ]
 )
